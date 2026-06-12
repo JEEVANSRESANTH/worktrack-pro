@@ -1,0 +1,15 @@
+server:
+  port: 8761 # Moves the service registry off default 8080 to standard Eureka port
+
+spring:
+  application:
+    name: eureka-server # Registers this microservice node identification string in the system cluster
+
+eureka:
+  instance:
+    hostname: localhost # Declares the host address location for this instance node
+  client:
+    register-with-eureka: false # CRITICAL: Prevents the server from trying to register with itself as a client
+    fetch-registry: false # CRITICAL: Prevents the server from trying to download a local copy of registry cache tables
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ # Defines the local address endpoint for all client lookup requests
