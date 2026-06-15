@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: task-service # Registers its identity inside the cluster mesh
+  config:
+    import: "optional:configserver:http://localhost:8888" # Pulls global database properties from config-server
+
+server:
+  port: 8082 # Tells this microservice to listen on port 8082
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Announces its availability to the Eureka dashboard
