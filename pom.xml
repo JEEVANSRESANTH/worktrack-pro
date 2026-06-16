@@ -22,7 +22,8 @@
         <module>config-server</module>
         <module>employee-service</module>
         <module>task-service</module>
-        <module>task-service</module>
+        <module>leave-service</module>
+        <module>leave-service</module>
     </modules>
 
     <dependencyManagement>
