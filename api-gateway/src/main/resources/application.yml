@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: api-gateway # Registers its identity inside Eureka
+  config:
+    import: "optional:configserver:http://localhost:8888" # Pulls dynamic routing logic maps from config-server
+
+server:
+  port: 8080 # The master entrance port for all future traffic requests
