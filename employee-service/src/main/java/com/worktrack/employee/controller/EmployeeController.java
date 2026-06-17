@@ -15,7 +15,6 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     // --- Dependency Injection via Constructor ---
-    // Spring Boot automatically hooks up our business logic service engine here
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
@@ -43,18 +42,13 @@ public class EmployeeController {
     /**
      * Endpoint: HTTP GET -> http://localhost:8081/api/employees/corporate/{employeeId}
      * Usage: Fetches a single employee profile matching their unique corporate ID safely.
-     * Note: value = "employeeId" explicitly bypasses standard Java reflection parameters compiler flags.
+     * Note: Explicit value binding is kept to bypass reflection flags, but the try-catch is gone!
      */
     @GetMapping("/corporate/{employeeId}")
-    public ResponseEntity<?> getEmployeeByCorporateId(@PathVariable(value = "employeeId") String employeeId) {
-        try {
-            Employee employee = employeeService.getEmployeeByCorporateId(employeeId);
-            return ResponseEntity.ok(employee); // Returns HTTP Status 200 (OK)
-        } catch (RuntimeException e) {
-            // Catches your service layer or database query exceptions cleanly!
-            System.out.println("⚠️ CONTROLLER RECOVERY -> " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"message\": \"" + e.getMessage() + "\"}"); // Returns a clean 404 block instead of crashing with a 500
-        }
+    public ResponseEntity<Employee> getEmployeeByCorporateId(@PathVariable(value = "employeeId") String employeeId) {
+        // Pristine production form: Business logic runs directly.
+        // If an exception occurs, GlobalExceptionHandler automatically intercepts it!
+        Employee employee = employeeService.getEmployeeByCorporateId(employeeId);
+        return ResponseEntity.ok(employee);
     }
 }
