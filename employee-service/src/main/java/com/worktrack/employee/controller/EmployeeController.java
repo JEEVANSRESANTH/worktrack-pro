@@ -27,7 +27,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
         Employee savedEmployee = employeeService.registerEmployee(employee);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED); // Returns HTTP Status 211 (Created)
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED); // Returns HTTP Status 201 (Created)
     }
 
     /**
@@ -42,11 +42,19 @@ public class EmployeeController {
 
     /**
      * Endpoint: HTTP GET -> http://localhost:8081/api/employees/corporate/{employeeId}
-     * Usage: Fetches a single employee profile matching their unique corporate ID (e.g., WT-A1B2C3).
+     * Usage: Fetches a single employee profile matching their unique corporate ID safely.
+     * Note: value = "employeeId" explicitly bypasses standard Java reflection parameters compiler flags.
      */
     @GetMapping("/corporate/{employeeId}")
-    public ResponseEntity<Employee> getEmployeeByCorporateId(@PathVariable String employeeId) {
-        Employee employee = employeeService.getEmployeeByCorporateId(employeeId);
-        return ResponseEntity.ok(employee); // Returns HTTP Status 200 (OK)
+    public ResponseEntity<?> getEmployeeByCorporateId(@PathVariable(value = "employeeId") String employeeId) {
+        try {
+            Employee employee = employeeService.getEmployeeByCorporateId(employeeId);
+            return ResponseEntity.ok(employee); // Returns HTTP Status 200 (OK)
+        } catch (RuntimeException e) {
+            // Catches your service layer or database query exceptions cleanly!
+            System.out.println("⚠️ CONTROLLER RECOVERY -> " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"message\": \"" + e.getMessage() + "\"}"); // Returns a clean 404 block instead of crashing with a 500
+        }
     }
 }

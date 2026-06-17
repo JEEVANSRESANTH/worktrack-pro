@@ -42,9 +42,10 @@ public class TaskController {
     /**
      * Endpoint: HTTP GET -> http://localhost:8082/api/tasks/employee/{employeeId}
      * Usage: Fetches all active assignments explicitly linked to a specific worker's corporate ID.
+     * Note: Explicit value assignment bypasses strict reflection compilation flags.
      */
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<Task>> getTasksByEmployee(@PathVariable String employeeId) {
+    public ResponseEntity<List<Task>> getTasksByEmployee(@PathVariable(value = "employeeId") String employeeId) {
         List<Task> tasks = taskService.getTasksByEmployee(employeeId);
         return ResponseEntity.ok(tasks); // Returns HTTP Status 200 (OK)
     }
@@ -55,8 +56,8 @@ public class TaskController {
      */
     @PatchMapping("/{taskId}/status")
     public ResponseEntity<Task> updateTaskStatus(
-            @PathVariable Long taskId,
-            @RequestParam String newStatus) {
+            @PathVariable(value = "taskId") Long taskId,
+            @RequestParam(value = "newStatus") String newStatus) {
         Task updatedTask = taskService.updateTaskStatus(taskId, newStatus);
         return ResponseEntity.ok(updatedTask); // Returns HTTP Status 200 (OK)
     }

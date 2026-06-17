@@ -23,7 +23,6 @@
         <module>employee-service</module>
         <module>task-service</module>
         <module>leave-service</module>
-        <module>ai-agent-service</module>
         <module>api-gateway</module>
         <module>ai-agent-service</module>
     </modules>
