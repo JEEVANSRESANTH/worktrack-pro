@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ai-agent-service # Registers its unique ID in the cluster directory
+  config:
+    import: "optional:configserver:http://localhost:8888" # Inherits core database profile coordinates
+
+server:
+  port: 8084 # Claims local port room 8084 for the AI container engine
