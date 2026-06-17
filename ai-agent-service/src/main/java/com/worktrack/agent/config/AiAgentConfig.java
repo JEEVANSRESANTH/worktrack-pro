@@ -47,10 +47,15 @@ public class AiAgentConfig {
                 .build();
     }
     @Bean
-    public ProjectManagerAgent projectManagerAgent(ChatLanguageModel chatLanguageModel, ChatMemoryProvider chatMemoryProvider) {
+    public ProjectManagerAgent projectManagerAgent(
+            ChatLanguageModel chatLanguageModel,
+            ChatMemoryProvider chatMemoryProvider,
+            com.worktrack.agent.tools.EmployeeServiceTools employeeServiceTools) { // Inject tools bean here
+
         return dev.langchain4j.service.AiServices.builder(ProjectManagerAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemoryProvider(chatMemoryProvider)
+                .tools(employeeServiceTools) // Hand the tools to the agent's brain context!
                 .build();
     }
 }
