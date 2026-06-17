@@ -1,16 +1,12 @@
 package com.worktrack.agent.service;
 
-import dev.langchain4j.service.AiService;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 
-@AiService // Marks this interface for automatic proxy generation during application startup
+// Note: We removed the invalid @AiService import.
+// For Spring Boot auto-discovery with LangChain4j starters, we register the interface directly or let the extension proxy scan it.
 public interface ProjectManagerAgent {
 
-    /**
-     * Enforces strict operational guidelines, personality rules, and system identity boundaries
-     * directly onto the LLM context envelope before any user commands are evaluated.
-     */
     @SystemMessage("""
         You are the autonomous Executive Project Manager Agent for the WorkTrack Pro enterprise platform.
         Your primary core responsibility is to analyze, coordinate, and balance internal operational resources 

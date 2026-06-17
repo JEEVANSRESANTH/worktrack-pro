@@ -8,6 +8,7 @@ import dev.langchain4j.model.openai.OpenAiTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.worktrack.agent.service.ProjectManagerAgent;
 
 import java.time.Duration;
 
@@ -26,7 +27,7 @@ public class AiAgentConfig {
     public ChatLanguageModel chatLanguageModel() {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gpt-4o") // Optimized framework handle targeting strict JSON tool calling
+                .modelName("gpt-4o-mini") // Optimized framework handle targeting strict JSON tool calling
                 .temperature(0.0)    // Set to 0.0 to enforce strict deterministic logic execution bounds (eliminates hallucinations)
                 .timeout(Duration.ofSeconds(60))
                 .logRequests(true)   // Emits complete runtime JSON interaction frames to the terminal log window for easy debugging
@@ -43,6 +44,13 @@ public class AiAgentConfig {
         return chatMemoryId -> TokenWindowChatMemory.builder()
                 .id(chatMemoryId)
                 .maxTokens(2000, new OpenAiTokenizer("gpt-4o")) // Automatically ejects oldest exchange packets to prevent memory overflow
+                .build();
+    }
+    @Bean
+    public ProjectManagerAgent projectManagerAgent(ChatLanguageModel chatLanguageModel, ChatMemoryProvider chatMemoryProvider) {
+        return dev.langchain4j.service.AiServices.builder(ProjectManagerAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemoryProvider(chatMemoryProvider)
                 .build();
     }
 }

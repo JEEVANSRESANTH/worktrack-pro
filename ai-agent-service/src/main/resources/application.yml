@@ -1,8 +1,17 @@
 spring:
   application:
-    name: ai-agent-service # Registers its unique ID in the cluster directory
+    name: ai-agent-service
   config:
-    import: "optional:configserver:http://localhost:8888" # Inherits core database profile coordinates
+    import: "optional:configserver:http://localhost:8888"
 
 server:
-  port: 8084 # Claims local port room 8084 for the AI container engine
+  port: 8084
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: 127.0.0.1:ai-agent-service:8084 # Forcefully kills ZORO_PC text strings in the metadata registry
+    hostname: 127.0.0.1
