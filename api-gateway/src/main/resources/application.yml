@@ -1,8 +1,20 @@
 spring:
   application:
-    name: api-gateway # Registers its identity inside Eureka
+    name: api-gateway
   config:
-    import: "optional:configserver:http://localhost:8888" # Pulls dynamic routing logic maps from config-server
+    import: "optional:configserver:http://config-server:8888" # 🔥 Changed localhost to config-server
+  cloud:
+    gateway:
+      routes:
+        - id: ai-agent-service
+          uri: http://ai-agent-service:8084
+          predicates:
+            - Path=/api/ai/**
 
 server:
-  port: 8080 # The master entrance port for all future traffic requests
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/ # 🔥 Ensure eureka network routing is explicitly declared here too

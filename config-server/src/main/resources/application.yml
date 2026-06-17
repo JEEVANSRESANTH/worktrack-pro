@@ -1,17 +1,17 @@
 server:
-  port: 8888 # The standard enterprise port specification for Spring Cloud Config Server
+  port: 8888
 
 spring:
   application:
-    name: config-server # Identifies this node uniquely within our microservice network
+    name: config-server
   cloud:
     config:
       server:
         git:
-          uri: file:///D:/projects/worktrack-config-repo # Points directly to your local configuration folder on disk
-          default-label: main # Directs the engine to pull files from your default main Git branch
+          uri: file:///app/config-repo # 🔥 Changed to a clean internal container folder route
+          default-label: main
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # Registers this configuration manager into the running Eureka registry
+      defaultZone: http://eureka-server:8761/eureka/ # 🔥 Changed localhost to eureka-server

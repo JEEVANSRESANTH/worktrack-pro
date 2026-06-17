@@ -7,7 +7,7 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost # Declares the host address location for this instance node
+    hostname: eureka-server # Use the Docker Compose service name so other containers can resolve the registry
   client:
     register-with-eureka: false # CRITICAL: Prevents the server from trying to register with itself as a client
     fetch-registry: false # CRITICAL: Prevents the server from trying to download a local copy of registry cache tables

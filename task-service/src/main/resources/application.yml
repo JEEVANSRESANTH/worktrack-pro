@@ -2,7 +2,7 @@ spring:
   application:
     name: task-service # Registers its identity inside the cluster mesh
   config:
-    import: "optional:configserver:http://localhost:8888" # Pulls global database properties from config-server
+    import: "optional:configserver:http://config-server:8888" # Use Compose service name so containers reach the Config Server
 
 server:
   port: 8082 # Tells this microservice to listen on port 8082
@@ -10,4 +10,4 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # Announces its availability to the Eureka dashboard
+      defaultZone: http://eureka-server:8761/eureka/ # Use Compose service name for Eureka
