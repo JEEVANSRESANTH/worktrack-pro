@@ -6,6 +6,6 @@ WORKDIR /app
 
 # Step 3: Copy the compiled jar from your local target build folder into the image
 COPY target/*.jar app.jar
-EXPOSE 8083
+EXPOSE 8761
 # Step 4: Run the Java application when the container fires up
 ENTRYPOINT ["java", "-jar", "app.jar"]

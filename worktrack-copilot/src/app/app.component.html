@@ -1,0 +1,38 @@
+<div class="page-bg">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+
+  <main class="copilot-shell">
+    <header class="hero">
+      <p class="tag">AI Assistant</p>
+      <h1>WorkTrack Pro Co-Pilot</h1>
+      <p class="subtitle">Ask about employees, tasks, leave status, and delivery progress in one place.</p>
+    </header>
+
+    <form class="composer" (ngSubmit)="submitCommand()">
+      <label for="promptInput">Your prompt</label>
+      <div class="composer-row">
+        <input
+          id="promptInput"
+          [(ngModel)]="prompt"
+          name="promptInput"
+          placeholder="Example: What is employee WT-434019 currently assigned to work on?"
+          autocomplete="off"
+        />
+
+        <button type="submit" [disabled]="isLoading() || !prompt.trim()">
+          <span *ngIf="isLoading()" class="spinner" aria-hidden="true"></span>
+          {{ isLoading() ? 'Processing' : 'Send' }}
+        </button>
+      </div>
+    </form>
+
+    <section class="response-card" [class.response-visible]="!!aiResponse()" [attr.aria-busy]="isLoading()">
+      <p class="response-label">AI Response</p>
+
+      <p *ngIf="isLoading()" class="loading-text">Working on it...</p>
+      <p *ngIf="!isLoading() && aiResponse()" class="response-body">{{ aiResponse() }}</p>
+      <p *ngIf="!isLoading() && !aiResponse()" class="placeholder-text">Your answer appears here after you submit a prompt.</p>
+    </section>
+  </main>
+</div>
